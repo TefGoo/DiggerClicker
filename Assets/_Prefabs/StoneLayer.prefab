@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2662981353333912102}
   - component: {fileID: 7365154666768099256}
   m_Layer: 0
-  m_Name: DirtLayer
+  m_Name: StoneLayer
   m_TagString: Mineable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -144,4 +144,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b55645a76742d2c4c8660cae50b5b47a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHP: 20
+  maxHP: 80

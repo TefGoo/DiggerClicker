@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class SpawnScript : MonoBehaviour
 {
-    public GameObject prefab; // The prefab to spawn
+    public GameObject[] prefabs; // Array of prefabs to spawn
     public Transform[] spawnPoints; // Array of spawn points
     public int numberOfLayers = 4; // Number of layers to maintain
     public float timeBetweenSpawns = 5f; // Time between spawns in seconds
@@ -12,6 +12,7 @@ public class SpawnScript : MonoBehaviour
     private bool canSpawn = true; // Flag to control spawning
     private int spawnCounter = 0; // Counter to cycle through spawn points
     private bool initialSpawnPointsUsed = false; // Flag to track the initial spawn points usage
+    private int totalSpawnedPrefabs = 0; // Counter for total spawned prefabs
 
     void Start()
     {
@@ -27,6 +28,8 @@ public class SpawnScript : MonoBehaviour
         // Check if there are fewer than four active layers before spawning
         if (canSpawn && CountActiveLayers() < numberOfLayers)
         {
+            int prefabIndex = ChoosePrefabIndex();
+
             // Spawn a new layer at the bottom
             for (int i = numberOfLayers - 1; i > 0; i--)
             {
@@ -52,7 +55,47 @@ public class SpawnScript : MonoBehaviour
                 spawnPoint = spawnPoints[spawnPoints.Length - 1];
             }
 
-            layers[0] = Instantiate(prefab, spawnPoint.position, Quaternion.identity);
+            layers[0] = Instantiate(prefabs[prefabIndex], spawnPoint.position, Quaternion.identity);
+            totalSpawnedPrefabs++;
+
+            LogPrefabInfo(prefabs[prefabIndex].name);
+        }
+    }
+
+    int ChoosePrefabIndex()
+    {
+        // Return the index based on your spawning rules
+        if (totalSpawnedPrefabs < 50)
+        {
+            return 0; // Spawn prefab 1
+        }
+        else if (totalSpawnedPrefabs < 175)
+        {
+            return 1; // Spawn prefab 2
+        }
+        else if (totalSpawnedPrefabs < 425)
+        {
+            return 2; // Spawn prefab 3
+        }
+        else if (totalSpawnedPrefabs < 1925)
+        {
+            return 3; // Spawn prefab 4
+        }
+        else if (totalSpawnedPrefabs < 6925)
+        {
+            return 4; // Spawn prefab 5
+        }
+        else if (totalSpawnedPrefabs < 26925)
+        {
+            return 5; // Spawn prefab 6
+        }
+        else if (totalSpawnedPrefabs < 76925)
+        {
+            return 6; // Spawn prefab 7
+        }
+        else
+        {
+            return 7; // Spawn prefab 8
         }
     }
 
@@ -78,5 +121,11 @@ public class SpawnScript : MonoBehaviour
         {
             spawnPoint.gameObject.SetActive(false);
         }
+    }
+
+    // Log prefab information to the console
+    void LogPrefabInfo(string prefabName)
+    {
+        Debug.Log("Spawned prefab: " + prefabName);
     }
 }
