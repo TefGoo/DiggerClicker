@@ -510,6 +510,11 @@ PrefabInstance:
       propertyPath: economyScript
       value: 
       objectReference: {fileID: 25006412}
+    - target: {fileID: 7365154666768099256, guid: 4d3566c54a7123045964fd1b0a5f31a1,
+        type: 3}
+      propertyPath: pointsOnDestroy
+      value: 40
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -583,6 +588,11 @@ PrefabInstance:
       propertyPath: economyScript
       value: 
       objectReference: {fileID: 25006412}
+    - target: {fileID: 7365154666768099256, guid: c1e88601c21e734469fb57f5ef1ad7f0,
+        type: 3}
+      propertyPath: pointsOnDestroy
+      value: 50
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2000,6 +2010,11 @@ PrefabInstance:
       propertyPath: economyScript
       value: 
       objectReference: {fileID: 25006412}
+    - target: {fileID: 7365154666768099256, guid: f37e67d36adb0cb46ae994c9715853b6,
+        type: 3}
+      propertyPath: pointsOnDestroy
+      value: 30
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2290,6 +2305,11 @@ PrefabInstance:
       propertyPath: economyScript
       value: 
       objectReference: {fileID: 25006412}
+    - target: {fileID: 7365154666768099256, guid: e1b488dc759d9cf4ebe7fbfabefb9811,
+        type: 3}
+      propertyPath: pointsOnDestroy
+      value: 15
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2475,6 +2495,11 @@ PrefabInstance:
       propertyPath: economyScript
       value: 
       objectReference: {fileID: 25006412}
+    - target: {fileID: 7365154666768099256, guid: 43ba8d563aa3b4041ba868bb139d5b2e,
+        type: 3}
+      propertyPath: pointsOnDestroy
+      value: 20
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2548,6 +2573,11 @@ PrefabInstance:
       propertyPath: economyScript
       value: 
       objectReference: {fileID: 25006412}
+    - target: {fileID: 7365154666768099256, guid: 2bf755dbc96094c43b6a8d8a2ee57e07,
+        type: 3}
+      propertyPath: pointsOnDestroy
+      value: 20
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3468,9 +3498,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7365154666768099256, guid: 460569148ade1b546910e8de5d44d3a7,
         type: 3}
+      propertyPath: maxHP
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 7365154666768099256, guid: 460569148ade1b546910e8de5d44d3a7,
+        type: 3}
       propertyPath: economyScript
       value: 
       objectReference: {fileID: 25006412}
+    - target: {fileID: 7365154666768099256, guid: 460569148ade1b546910e8de5d44d3a7,
+        type: 3}
+      propertyPath: pointsOnDestroy
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
