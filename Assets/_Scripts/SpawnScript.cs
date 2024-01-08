@@ -2,130 +2,99 @@ using UnityEngine;
 
 public class SpawnScript : MonoBehaviour
 {
+    public GameObject loadingPanel; // Reference to the loading panel
     public GameObject[] prefabs; // Array of prefabs to spawn
-    public Transform[] spawnPoints; // Array of spawn points
-    public int numberOfLayers = 4; // Number of layers to maintain
-    public float timeBetweenSpawns = 5f; // Time between spawns in seconds
-    public float delayToDeactivate = 4f; // Delay before deactivating objects
+    public int[] prefabCounts; // Number of each prefab to spawn initially
+    public int additionalPrefabsToSpawn = 8; // Number of additional prefabs to spawn when triggered
+    public float prefabSpacing = 1f; // Spacing between prefabs
 
     private GameObject[] layers; // Array to hold the spawned layers
-    private bool canSpawn = true; // Flag to control spawning
-    private int spawnCounter = 0; // Counter to cycle through spawn points
-    private bool initialSpawnPointsUsed = false; // Flag to track the initial spawn points usage
-    private int totalSpawnedPrefabs = 0; // Counter for total spawned prefabs
+    private int currentPrefabIndex = 0; // Index to track the current prefab to spawn
+    private float currentYOffset = 0f; // Y offset to track the position of the next prefab
 
     void Start()
     {
-        layers = new GameObject[numberOfLayers];
-        InvokeRepeating("SpawnPrefab", 0f, timeBetweenSpawns);
-
-        // Call the DeactivateObjects function after a delay
-        Invoke("DeactivateObjects", delayToDeactivate);
+        ShowLoadingPanel();
+        Invoke("SpawnInitialPrefabs", 0.4f);
+        Invoke("HideLoadingPanel", 2f); // Delay the execution of HideLoadingPanel by 2 seconds
     }
 
-    void SpawnPrefab()
+    // Function to show the loading panel
+    void ShowLoadingPanel()
     {
-        // Check if there are fewer than four active layers before spawning
-        if (canSpawn && CountActiveLayers() < numberOfLayers)
+        if (loadingPanel != null)
         {
-            int prefabIndex = ChoosePrefabIndex();
-
-            // Spawn a new layer at the bottom
-            for (int i = numberOfLayers - 1; i > 0; i--)
-            {
-                layers[i] = layers[i - 1];
-            }
-
-            Transform spawnPoint;
-
-            if (!initialSpawnPointsUsed)
-            {
-                // Use the initial spawn points (1, 2, 3) only for the first time
-                spawnPoint = spawnPoints[spawnCounter];
-                spawnCounter = (spawnCounter + 1) % spawnPoints.Length;
-
-                if (spawnCounter == 0)
-                {
-                    initialSpawnPointsUsed = true;
-                }
-            }
-            else
-            {
-                // Use the bottom spawn point for subsequent spawns
-                spawnPoint = spawnPoints[spawnPoints.Length - 1];
-            }
-
-            layers[0] = Instantiate(prefabs[prefabIndex], spawnPoint.position, Quaternion.identity);
-            totalSpawnedPrefabs++;
-
-            LogPrefabInfo(prefabs[prefabIndex].name);
+            loadingPanel.SetActive(true);
         }
     }
 
-    int ChoosePrefabIndex()
+    // Function to hide the loading panel
+    void HideLoadingPanel()
     {
-        // Return the index based on your spawning rules
-        if (totalSpawnedPrefabs < 50)
+        if (loadingPanel != null)
         {
-            return 0; // Spawn prefab 1
-        }
-        else if (totalSpawnedPrefabs < 175)
-        {
-            return 1; // Spawn prefab 2
-        }
-        else if (totalSpawnedPrefabs < 425)
-        {
-            return 2; // Spawn prefab 3
-        }
-        else if (totalSpawnedPrefabs < 1925)
-        {
-            return 3; // Spawn prefab 4
-        }
-        else if (totalSpawnedPrefabs < 6925)
-        {
-            return 4; // Spawn prefab 5
-        }
-        else if (totalSpawnedPrefabs < 26925)
-        {
-            return 5; // Spawn prefab 6
-        }
-        else if (totalSpawnedPrefabs < 76925)
-        {
-            return 6; // Spawn prefab 7
-        }
-        else
-        {
-            return 7; // Spawn prefab 8
+            loadingPanel.SetActive(false);
         }
     }
 
-    // Helper function to count the number of active layers
-    int CountActiveLayers()
+    // Function to spawn the initial set of prefabs
+    void SpawnInitialPrefabs()
     {
-        int count = 0;
-        foreach (GameObject layer in layers)
+        SpawnPrefabs(prefabCounts);
+    }
+
+    // Function to be called when a prefab is destroyed
+    public void OnPrefabDestroyed()
+    {
+        SpawnAdditionalPrefabs();
+    }
+
+    // Function to spawn additional prefabs when triggered by player actions
+    void SpawnAdditionalPrefabs()
+    {
+        if (currentPrefabIndex < prefabs.Length)
         {
-            if (layer != null)
+            int remainingPrefabs = Mathf.Min(prefabCounts[currentPrefabIndex], additionalPrefabsToSpawn);
+
+            // Spawn additional prefabs
+            while (remainingPrefabs > 0)
             {
-                count++;
+                Vector3 spawnPosition = new Vector3(transform.position.x, currentYOffset, transform.position.z);
+                layers[currentPrefabIndex] = Instantiate(prefabs[currentPrefabIndex % prefabs.Length], spawnPosition, Quaternion.identity);
+                currentYOffset -= prefabSpacing; // Update the Y offset for the next prefab
+                currentPrefabIndex++;
+                remainingPrefabs--;
+
+                if (currentPrefabIndex >= prefabs.Length)
+                    break;
             }
         }
-        return count;
     }
 
-    // Function to be called after a delay to deactivate specific objects
-    void DeactivateObjects()
+    // Function to spawn prefabs based on the provided counts
+    void SpawnPrefabs(int[] counts)
     {
-        // Deactivate the specified objects
-        foreach (Transform spawnPoint in spawnPoints)
+        int totalPrefabCount = 0;
+
+        // Calculate the total number of prefabs to spawn
+        foreach (int count in counts)
         {
-            spawnPoint.gameObject.SetActive(false);
+            totalPrefabCount += count;
         }
-    }
 
-    // Log prefab information to the console
-    void LogPrefabInfo(string prefabName)
-    {
-        Debug.Log("Spawned prefab: " + prefabName);
+        layers = new GameObject[totalPrefabCount];
+        int currentCountIndex = 0;
+
+        // Spawn each prefab according to the specified counts
+        for (int i = 0; i < prefabs.Length; i++)
+        {
+            for (int j = 0; j < counts[i]; j++)
+            {
+                Vector3 spawnPosition = new Vector3(transform.position.x, currentYOffset, transform.position.z);
+                layers[currentCountIndex] = Instantiate(prefabs[i], spawnPosition, Quaternion.identity);
+                currentYOffset -= prefabSpacing; // Update the Y offset for the next prefab
+                currentCountIndex++;
+            }
+        }
     }
 }

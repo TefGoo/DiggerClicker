@@ -1,14 +1,21 @@
+// MiningScript.cs
 using UnityEngine;
 using UnityEngine.UI;
 
 public class MiningScript : MonoBehaviour
 {
     public Button mineButton; // Reference to the UI mine button
-    public int damagePerClick = 1; // Damage to apply per click
+    public Text pointsText; // Reference to the UI text for points
+    public ToolScript currentTool; // Reference to the currently equipped tool
 
-    private void Start()
+    void Start()
     {
         mineButton.onClick.AddListener(MineButtonClick);
+    }
+
+    public void SetCurrentTool(ToolScript tool)
+    {
+        currentTool = tool;
     }
 
     private void MineButtonClick()
@@ -17,8 +24,8 @@ public class MiningScript : MonoBehaviour
         GameObject mineableObject = GetMineableObject();
         if (mineableObject != null)
         {
-            // Apply damage to the mineable object
-            mineableObject.GetComponent<DamageScript>().TakeDamage(damagePerClick);
+            // Apply damage to the mineable object with the current tool's damage multiplier
+            mineableObject.GetComponent<DamageScript>().TakeDamage(Mathf.RoundToInt(currentTool.damageMultiplier));
         }
     }
 

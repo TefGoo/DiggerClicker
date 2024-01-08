@@ -34,4 +34,8 @@ public class DamageScript : MonoBehaviour
             }
         }
     }
+    public int GetCurrentHP()
+    {
+        return currentHP;
+    }
 }
