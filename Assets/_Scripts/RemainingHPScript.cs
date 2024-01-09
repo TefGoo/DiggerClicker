@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class RemainingHPScript : MonoBehaviour
 {
-    public TextMeshProUGUI hpText; // Reference to the TextMeshProUGUI component
+    public TextMeshPro hpText; // Reference to the TextMeshProUGUI component
 
     private DamageScript damageScript; // Reference to the DamageScript on the same GameObject
 
@@ -20,6 +20,11 @@ public class RemainingHPScript : MonoBehaviour
         {
             Debug.LogError("RemainingHPScript: DamageScript or hpText not assigned!");
         }
+    }
+    void Update()
+    {
+        // Continuously update the TextMeshPro with the remaining HP
+        UpdateHPText();
     }
 
     void UpdateHPText()
