@@ -1,3 +1,4 @@
+// ToolManager.cs
 using TMPro;
 using UnityEngine;
 
@@ -10,42 +11,46 @@ public class ToolManager : MonoBehaviour
 
     private void Start()
     {
-        // Set the default active tool
         SetActiveTool(tools[0]);
     }
-
-    // Called when a tool button is clicked
-    public void OnToolButtonClick(int toolIndex, int toolCost)
+    public string OnToolButtonClick(int toolIndex, int toolCost, EconomyScript economyScript)
     {
         if (toolIndex >= 0 && toolIndex < tools.Length)
         {
             // Check if the player has enough points to buy the tool
-            int playerPoints = PlayerPrefs.GetInt("PlayerPoints", 0);
+            int playerPoints = economyScript.GetPoints();
 
             if (playerPoints >= toolCost && !tools[toolIndex].IsUnlocked())
             {
                 // Deduct the cost from player points
-                playerPoints -= toolCost;
-                PlayerPrefs.SetInt("PlayerPoints", playerPoints);
-
-                // Save the updated points
-                PlayerPrefs.Save();
+                economyScript.DeductPoints(toolCost);
 
                 // Unlock the tool
                 tools[toolIndex].Unlock();
 
                 // Set the active tool
                 SetActiveTool(tools[toolIndex]);
+
+                return "Tool bought successfully!";
             }
             else
             {
-                // Display a message or handle the case where the player doesn't have enough points
-                Debug.Log("Not enough points to buy this tool or the tool is already unlocked.");
+                // Return a message indicating why the tool couldn't be bought
+                if (tools[toolIndex].IsUnlocked())
+                {
+                    return "Tool is already unlocked.";
+                }
+                else
+                {
+                    return "Not enough points to buy this tool.";
+                }
             }
         }
+
+        return "Invalid tool index.";
     }
 
-    // Set the active tool
+
     private void SetActiveTool(ToolScript tool)
     {
         activeTool = tool;

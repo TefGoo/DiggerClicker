@@ -1,5 +1,5 @@
-using UnityEngine;
 using TMPro;
+using UnityEngine;
 
 public class EconomyScript : MonoBehaviour
 {
@@ -15,6 +15,18 @@ public class EconomyScript : MonoBehaviour
     public void AddPoints(int amount)
     {
         points += amount;
+        UpdatePointsDisplay();
+        SavePlayerPrefs();
+    }
+
+    public int GetPoints()
+    {
+        return points;
+    }
+
+    public void DeductPoints(int amount)
+    {
+        points -= amount;
         UpdatePointsDisplay();
         SavePlayerPrefs();
     }
