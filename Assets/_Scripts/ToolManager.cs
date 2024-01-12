@@ -1,4 +1,3 @@
-// ToolManager.cs
 using TMPro;
 using UnityEngine;
 
@@ -42,7 +41,7 @@ public class ToolManager : MonoBehaviour
                 }
                 else
                 {
-                    return "Not enough points to buy this tool.";
+                    return "Not enough rocks to buy this tool.";
                 }
             }
         }

@@ -33,7 +33,7 @@ public class EconomyScript : MonoBehaviour
 
     private void UpdatePointsDisplay()
     {
-        pointsText.text = "Points: " + points.ToString();
+        pointsText.text = "Rocks: " + points.ToString();
     }
 
     private void SavePlayerPrefs()

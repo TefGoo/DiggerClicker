@@ -2,22 +2,23 @@ using UnityEngine;
 
 public class SpawnParticleSystem : MonoBehaviour
 {
-    public ParticleSystem particleSystemPrefab; // Reference to the particle system prefab
+    public GameObject particlePrefab;  // Reference to the particle system prefab
+    public Transform spawnPoint;       // The spawn point for the particle system
 
-    public void OnButtonClick()
+    public void SpawnParticles()
     {
-        // Check if the particleSystemPrefab is assigned
-        if (particleSystemPrefab != null)
+        // Check if the particle prefab and spawn point are set
+        if (particlePrefab != null && spawnPoint != null)
         {
-            // Instantiate the particle system at the button's position
-            ParticleSystem instantiatedParticleSystem = Instantiate(particleSystemPrefab, transform.position, Quaternion.identity);
+            // Instantiate the particle system at the spawn point
+            GameObject particleSystemInstance = Instantiate(particlePrefab, spawnPoint.position, Quaternion.identity);
 
-            // Play the particle system animation
-            instantiatedParticleSystem.Play();
+            // Optionally, you can parent the particle system to keep things organized
+            particleSystemInstance.transform.parent = spawnPoint;
         }
         else
         {
-            Debug.LogWarning("Particle system prefab is not assigned in the inspector.");
+            Debug.LogWarning("Particle prefab or spawn point not set in the ParticleSpawner script.");
         }
     }
 }

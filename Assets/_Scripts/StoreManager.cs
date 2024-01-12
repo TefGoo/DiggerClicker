@@ -40,7 +40,7 @@ public class StoreManager : MonoBehaviour
     // Update UI with the current points
     private void UpdatePointsUI()
     {
-        pointsText.text = "Points: " + economyScript.GetPoints().ToString();
+        pointsText.text = "Rocks: " + economyScript.GetPoints().ToString();
     }
 
     // Clear the message
